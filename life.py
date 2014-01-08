@@ -1,67 +1,61 @@
-from __future__ import print_function
+from sets import Set
 import random
                 
 class Universe:
 
     def __init__(self, width, height):
-        self.width = width
-        self.height = height
-        self.cells = [[random.choice([True, False, False, False]) for x in xrange(width)] for x in xrange(height)]
+        self.width, self.height = width, height
+        self.cells = Set()
+        self.initcells()
 
-    def printgrid(self):
-        for row in self.cells:
-            for col in row:
-                print("*" if col else " ", sep=" ", end="")
-            print('')
+    def initcells(self):
+        random.seed()
+        for i in xrange((self.width * self.height) / 4):
+            x = random.randrange(self.width)
+            y = random.randrange(self.height)
+            self.cells.add((x,y))
 
     def copycells(self):
         self.oldcells = self.cells
-        self.cells = [[False for x in xrange(self.width)] for x in xrange(self.height)]
-        
+        self.cells = Set()        
 
     def increment(self):
         self.copycells()
-        for rowidx in xrange(self.height):
-            for colidx in xrange(self.width):
-                self.updatecell(rowidx, colidx)
+        for x in range(self.width):
+            for y in range(self.height):
+                self.updatecell((x, y))
 
-    def livecell(self, row, col):
-        return self.oldcells[row][col]
+    def livecell(self, cell):
+        return cell in self.oldcells
 
-    def liveneighbors(self, row, col):
+    def liveneighbors(self, cell):
         livecount = 0
-        height = self.height
-        width = self.width
-        cells = self.oldcells
+        height, width = self.height, self.width
+        row, col = cell
         for rowoffset in [-1, 0, 1]:
             for coloffset in [-1, 0, 1]:
-                nrow = (row + rowoffset) % height
-                ncol = (col + coloffset) % width
-                if rowoffset != 0 or coloffset != 0:
-                    nlive = self.livecell(nrow, ncol)
-                    if nlive:
+                if not (rowoffset == 0 and coloffset == 0):
+                    ncell = ((row + rowoffset) % height, (col + coloffset) % width)
+                    if self.livecell(ncell):
                         livecount += 1
         return livecount
             
-    def updatecell(self, row, col):
-        liveneighbors = self.liveneighbors(row, col)
-        if self.livecell(row, col):
-            self.cells[row][col] = liveneighbors >= 2 and liveneighbors <= 3
-        else:
-            self.cells[row][col] = liveneighbors == 3
+    def updatecell(self, cell):
+        liven = self.liveneighbors(cell)
+        if self.livecell(cell):
+            if liven >= 2 and liven <= 3:
+                self.cells.add(cell)
+        elif liven == 3:
+            self.cells.add(cell)
 
 
 class Simulation:
 
     def __init__(self, width, height):
-        self.width = width
-        self.height = height
+        self.width, self.height = width, height
         self.universe = Universe(width, height)
-
-    def defaultdraw(cells):
-        self.universe.printgrid()
         
-    def run(self, max_iter, drawfunc = defaultdraw):
+    def run(self, max_iter, drawfunc):
 
         def drawcells():
             drawfunc(self.universe.cells)
@@ -74,10 +68,11 @@ class Simulation:
             drawcells()
 
         drawcells()
+        
         if max_iter is None:
             while True:
                 drawnext()
         else:
-            for iter in range(1, max_iter + 1):
+            for iter in xrange(max_iter):
                 drawnext()
             
