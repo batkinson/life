@@ -9,11 +9,8 @@ class Universe:
         self.initcells()
 
     def initcells(self):
-        random.seed()
         for i in xrange((self.width * self.height) / 4):
-            x = random.randrange(self.width)
-            y = random.randrange(self.height)
-            self.cells.add((x,y))
+            self.cells.add((random.randrange(self.width),random.randrange(self.height)))
 
     def copycells(self):
         self.oldcells = self.cells
