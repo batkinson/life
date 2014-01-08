@@ -39,7 +39,6 @@ class Universe:
                 ncol = (col + coloffset) % width
                 if rowoffset != 0 or coloffset != 0:
                     nlive = self.livecell(nrow, ncol)
-                    # print("    [{},{}], live: {}".format(ncol, nrow, nlive))
                     if nlive:
                         livecount += 1
         return livecount
@@ -50,8 +49,6 @@ class Universe:
             self.cells[row][col] = liveneighbors >= 2 and liveneighbors <= 3
         else:
             self.cells[row][col] = liveneighbors == 3
-        # print("[{},{}], live: {}, neighbors: {}, lives: {}".format(col, row, self.livecell(row, col), liveneighbors, self.cells[row][col]))
-        
 
 
 class Simulation:
@@ -65,7 +62,6 @@ class Simulation:
         self.universe.printgrid()
         
     def run(self, max_iter, drawfunc = defaultdraw):
-        # print("Running {} iterations, dimensions: {}x{}".format(max_iter, self.width, self.height))
         drawfunc(self.universe.cells)
         if max_iter is None:
             while True:
@@ -73,7 +69,6 @@ class Simulation:
                 drawfunc(self.universe.cells)
         else:
             for iter in range(1, max_iter + 1):
-                # print("Iteration {}:".format(iter))
                 self.universe.increment()
                 drawfunc(self.universe.cells)
             
