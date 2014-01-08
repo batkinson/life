@@ -15,12 +15,14 @@ def main():
     iterations = None
     
     def cursesdraw(cells):
+      stdscr.clear()
       stdscr.border()
       
       # fill cells with universe state
       for y, row in enumerate(cells):
         for x, col in enumerate(row):
-          stdscr.addch(y+1, x+1, ord('0') if col else ord(' '))
+          if col:
+            stdscr.addch(y+1, x+1, ord('0'))
       stdscr.refresh()
   
     simulation = life.Simulation(width, height)
