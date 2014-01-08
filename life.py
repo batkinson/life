@@ -62,13 +62,22 @@ class Simulation:
         self.universe.printgrid()
         
     def run(self, max_iter, drawfunc = defaultdraw):
-        drawfunc(self.universe.cells)
+
+        def drawcells():
+            drawfunc(self.universe.cells)
+
+        def nextstate():
+            self.universe.increment()
+
+        def drawnext():
+            nextstate()
+            drawcells()
+
+        drawcells()
         if max_iter is None:
             while True:
-                self.universe.increment()
-                drawfunc(self.universe.cells)
+                drawnext()
         else:
             for iter in range(1, max_iter + 1):
-                self.universe.increment()
-                drawfunc(self.universe.cells)
+                drawnext()
             
