@@ -6,10 +6,9 @@ import life
 
 def main():
 
-    usecurses = False
-    itermax = 15
-    width, height = 10, 10
-    simulation = life.Simulation(width, height)
+    usecurses = True
+    itermax = None
+    width, height = 80, 20
     
     if usecurses:
         stdscr = curses.initscr()
@@ -28,7 +27,8 @@ def main():
 	curses.cbreak()
 	
 	try:
-	    simulation.run(itermax, cursesdraw)
+            simulation = life.Simulation(width, height)
+            simulation.run(itermax, cursesdraw)
 	except KeyboardInterrupt:
 	    pass
 	except:
@@ -44,10 +44,11 @@ def main():
       
 	def printdraw(cells):
 	    print("-" * width)
-	    for x in range(width):
-		for y in range(height):
+	    for y in range(height):
+	        for x in range(width):
 		    print("0" if (x, y) in cells else " ", sep='', end='')
 		print('')
+	simulation = life.Simulation(width, height)
 	simulation.run(itermax, printdraw)
 
 
