@@ -30,12 +30,12 @@ class Universe:
 
     def liveneighbors(self, cell):
         livecount = 0
-        height, width = self.height, self.width
-        row, col = cell
-        for rowoffset in [-1, 0, 1]:
-            for coloffset in [-1, 0, 1]:
-                if not (rowoffset == 0 and coloffset == 0):
-                    ncell = ((row + rowoffset) % height, (col + coloffset) % width)
+        width, height = self.width, self.height
+        x, y = cell
+        for xoffset in [-1, 0, 1]:
+            for yoffset in [-1, 0, 1]:
+                if not (xoffset == 0 and yoffset == 0):
+                    ncell = ((x + xoffset) % width, (y + yoffset) % height)
                     if self.livecell(ncell):
                         livecount += 1
         return livecount
