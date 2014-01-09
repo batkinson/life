@@ -10,41 +10,45 @@ class Universe:
 
     def initcells(self):
         for i in xrange((self.width * self.height) / 4):
-            self.cells.add((random.randrange(self.width),random.randrange(self.height)))
+            self.cells.add((random.randrange(self.width),random.randrange(self.height)))       
 
-    def copycells(self):
+    def nexttick(self):
+        self.neighbors = {}
         self.oldcells = self.cells
-        self.cells = Set()        
+        self.cells = Set()
+        self.computeneighbors()
+        self.computenextgen()
 
-    def increment(self):
-        self.copycells()
-        for x in range(self.width):
-            for y in range(self.height):
-                self.updatecell((x, y))
+    def computeneighbors(self):
+        for cell in self.oldcells:
+            self.markneighbors(cell)
 
-    def livecell(self, cell):
-        return cell in self.oldcells
-
-    def liveneighbors(self, cell):
-        livecount = 0
+    def markneighbors(self, cell):
         width, height = self.width, self.height
         x, y = cell
-        for xoffset in [-1, 0, 1]:
-            for yoffset in [-1, 0, 1]:
-                if not (xoffset == 0 and yoffset == 0):
-                    ncell = ((x + xoffset) % width, (y + yoffset) % height)
-                    if self.livecell(ncell):
-                        livecount += 1
-        return livecount
-            
-    def updatecell(self, cell):
+        for xoff, yoff in [(-1,-1), (-1,0), (-1,1), (0,-1), (0,1), (1,-1), (1, 0), (1,1)]:
+            nx, ny = (x + xoff) % width, (y + yoff) % height
+            if (nx,ny) in self.neighbors:
+                self.neighbors[(nx,ny)] += 1
+            else:
+                self.neighbors[(nx,ny)] = 1
+
+    def waslive(self, cell):
+        return cell in self.oldcells
+    
+    def liveneighbors(self, cell):
+        return self.neighbors[cell] if cell in self.neighbors else 0
+    
+    def computenextgen(self):
+        for cell in self.neighbors.keys():
+            self.procreate(cell)
+
+    def procreate(self, cell):
         liven = self.liveneighbors(cell)
-        if self.livecell(cell):
-            if liven >= 2 and liven <= 3:
-                self.cells.add(cell)
+        if liven >= 2 and liven <= 3 and self.waslive(cell):
+            self.cells.add(cell)
         elif liven == 3:
             self.cells.add(cell)
-
 
 class Simulation:
 
@@ -58,7 +62,7 @@ class Simulation:
             drawfunc(self.universe.cells)
 
         def nextstate():
-            self.universe.increment()
+            self.universe.nexttick()
 
         def drawnext():
             nextstate()
