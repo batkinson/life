@@ -1,5 +1,6 @@
 from sets import Set
 import random
+import time
                 
 class Universe:
 
@@ -55,6 +56,8 @@ class Simulation:
     def __init__(self, width, height):
         self.width, self.height = width, height
         self.universe = Universe(width, height)
+        self.ticks = 0
+        self.starttime = time.clock()
         
     def run(self, max_iter, drawfunc):
 
@@ -63,6 +66,7 @@ class Simulation:
 
         def nextstate():
             self.universe.nexttick()
+            self.ticks += 1
 
         def drawnext():
             nextstate()
@@ -76,4 +80,11 @@ class Simulation:
         else:
             for iter in xrange(max_iter):
                 drawnext()
+
+    def summary(self):
+        universe = "{}x{} cell universe".format(self.width, self.height)
+        elapsedtime = time.clock() - self.starttime
+        timepertick = elapsedtime / self.ticks if self.ticks > 0 else 0
+        return "{} iterations in {}s ({}s/iteration), {}".format(
+            self.ticks, elapsedtime, timepertick, universe)
             

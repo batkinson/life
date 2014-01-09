@@ -6,7 +6,7 @@ import life
 
 def main():
 
-    usecurses = False
+    usecurses = True
     
     if usecurses:
         stdscr = curses.initscr()
@@ -52,6 +52,7 @@ def main():
 	simulation = life.Simulation(width, height)
 	simulation.run(itermax, printdraw)
 
+    print(simulation.summary())
 
 if __name__ == "__main__":
     main()
