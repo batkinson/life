@@ -6,14 +6,13 @@ import life
 
 def main():
 
-    usecurses = True
-    itermax = None
-    width, height = 80, 20
+    usecurses = False
     
     if usecurses:
         stdscr = curses.initscr()
 	scrheight, scrwidth = stdscr.getmaxyx()
 	height, width = scrheight - 2, scrwidth - 2
+	itermax = None
 
 	def cursesdraw(cells):
             stdscr.erase()
@@ -41,7 +40,9 @@ def main():
 	    curses.endwin()
 	
     else:
-      
+        width, height = 80, 10
+        itermax = 50
+
 	def printdraw(cells):
 	    print("-" * width)
 	    for y in range(height):
