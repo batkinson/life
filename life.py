@@ -82,9 +82,9 @@ class Simulation:
                 drawnext()
 
     def summary(self):
-        universe = "{}x{} cell universe".format(self.width, self.height)
+        universe = "{0}x{1} cell universe".format(self.width, self.height)
         elapsedtime = time.clock() - self.starttime
         timepertick = elapsedtime / self.ticks if self.ticks > 0 else 0
-        return "{} iterations in {}s ({}s/iteration), {}".format(
+        return "{0} iterations in {1}s ({2}s/iteration), {3}".format(
             self.ticks, elapsedtime, timepertick, universe)
             
