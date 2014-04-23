@@ -71,7 +71,7 @@ class Simulation:
       self.ticks += 1
 
    def draw_cells(self, draw_function):
-      draw_function(self.universe.cells)
+      draw_function(self.universe)
 
    def _draw_next(self, draw_function):
       self.next_state()
@@ -96,7 +96,7 @@ class Simulation:
 
    def summary(self):
       """Returns a summary of the simulation."""
-      universe = "{0}x{1} cell universe".format(self.width, self.height)
+      universe = "{0}x{1} cell universe".format(self.universe.width, self.universe.height)
       elapsed_time = time.clock() - self.start_time
       time_per_tick = elapsed_time / self.ticks if self.ticks > 0 else 0
       return "{0} iterations in {1}s ({2}s/iteration), {3}".format(

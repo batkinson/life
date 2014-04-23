@@ -15,10 +15,10 @@ class TkLife(Frame):
 
    def draw(self):
       """Draws the current simulation state."""
-      def draw_function(cells):
+      def draw_function(universe):
          cellsize = 10
          self.canvas.delete(ALL)
-         for x, y in cells:
+         for x, y in universe.cells:
             x1 = x * cellsize
             y1 = y * cellsize
             x2 = x1 + cellsize

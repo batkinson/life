@@ -14,10 +14,10 @@ def main():
       height, width = scr_height - 2, scr_width - 2
       iter_max = None
 
-      def curses_draw(cells):
+      def curses_draw(universe):
          std_scr.erase()
          std_scr.border()
-         for x, y in cells:
+         for x, y in universe.cells:
             std_scr.addch(y+1, x+1, ord('0'))
          std_scr.refresh()
 
@@ -48,11 +48,11 @@ def main():
       width, height = 80, 10
       iter_max = 50
 
-      def print_draw(cells):
+      def print_draw(universe):
          print("-" * width)
          for y in range(height):
             for x in range(width):
-               print("0" if (x, y) in cells else " ", sep='', end='')
+               print("0" if (x, y) in universe.cells else " ", sep='', end='')
             print('')
 
       simulation = life.Simulation(width, height)
