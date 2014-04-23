@@ -7,7 +7,7 @@ import life
 def main():
 
    usecurses = True
-   
+
    if usecurses:
       stdscr = curses.initscr()
       scrheight, scrwidth = stdscr.getmaxyx()

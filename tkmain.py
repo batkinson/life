@@ -2,7 +2,7 @@ from Tkinter import *
 import life
 
 class TkLife(Frame):
-      
+
    def __init__(self, master=None):
       Frame.__init__(self, master)
       master.resizable(width=FALSE, height=FALSE)
