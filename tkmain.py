@@ -21,7 +21,7 @@ class TkLife(Frame):
         cells = self.simulation.universe.cells
         cellsize = 10
         self.canvas.delete(ALL)
-	for x, y in cells:
+        for x, y in cells:
             x1 = x * cellsize
             y1 = y * cellsize
             x2 = x1 + cellsize
