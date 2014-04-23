@@ -10,8 +10,6 @@ def main():
 
    if use_curses:
       std_scr = curses.initscr()
-      scr_height, scr_width = std_scr.getmaxyx()
-      height, width = scr_height - 2, scr_width - 2
       iter_max = None
 
       def curses_draw(universe):
@@ -31,7 +29,8 @@ def main():
       curses.cbreak()
 
       try:
-         simulation = life.Simulation(width, height)
+         height, width = std_scr.getmaxyx()
+         simulation = life.Simulation(width-2, height-2)
          simulation.run(iter_max, curses_draw)
       except KeyboardInterrupt:
          pass

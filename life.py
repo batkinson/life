@@ -61,7 +61,6 @@ class Universe:
 class Simulation:
 
    def __init__(self, width, height):
-      self.width, self.height = width, height
       self.universe = Universe(width, height)
       self.ticks = 0
       self.start_time = time.clock()
