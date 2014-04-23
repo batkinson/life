@@ -1,4 +1,3 @@
-from sets import Set
 import random
 import time
 
@@ -6,14 +5,14 @@ class Universe:
 
    def __init__(self, width, height):
       self.width, self.height = width, height
-      self.cells = Set()
+      self.cells = set()
       self._init_cells()
 
    def next_gen(self):
       """Transform cells to next generation based on the rules of Life."""
       self.neighbors = {}
       self.old_cells = self.cells
-      self.cells = Set()
+      self.cells = set()
       self._compute_neighbors()
       self._compute_next_gen()
 
