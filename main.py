@@ -1,7 +1,7 @@
 from __future__ import print_function
-import curses
 import sys
 import traceback
+import curses
 import life
 
 def main():
