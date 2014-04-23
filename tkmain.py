@@ -10,37 +10,47 @@ class TkLife(Frame):
       master.geometry('805x605')
       self.pack()
       self.simulation = life.Simulation(80, 60)
-      self.createWidgets()
+      self._create_widgets()
       self.draw()
 
-   def createWidgets(self):
+   def draw(self):
+      """Draws the current simulation state."""
+      def draw_function(cells):
+         cellsize = 10
+         self.canvas.delete(ALL)
+         for x, y in cells:
+            x1 = x * cellsize
+            y1 = y * cellsize
+            x2 = x1 + cellsize
+            y2 = y1 + cellsize
+            self.canvas.create_rectangle(x1, y1, x2, y2, fill='gray')
+
+      self.simulation.draw_cells(draw_function)
+
+   def next_state(self):
+      """Drives the simulation forward to the next state."""
+      self.simulation.next_state()
+
+   def _create_widgets(self):
+      """Populates this app with widgets"""
       self.canvas = Canvas(self, width=800, height=600, background='white')
       self.canvas.pack()
 
-   def draw(self):
-      cells = self.simulation.universe.cells
-      cellsize = 10
-      self.canvas.delete(ALL)
-      for x, y in cells:
-         x1 = x * cellsize
-         y1 = y * cellsize
-         x2 = x1 + cellsize
-         y2 = y1 + cellsize
-         self.canvas.create_rectangle(x1, y1, x2, y2, fill='gray')
 
-   def nextstate(self):
-      self.simulation.universe.nexttick()
+def main():
+   """The main application routine."""
+   root = Tk()
+   app = TkLife(master=root)
 
-root = Tk()
+   def simstep():
+      app.next_state()
+      app.draw()
+      root.after(250, simstep)
 
-app = TkLife(master=root)
-
-def simstep():
-   app.nextstate()
-   app.draw()
    root.after(250, simstep)
-
-root.after(250, simstep)
-app.mainloop()
+   app.mainloop()
 
 
+# Start the application only if loaded as main
+if __name__ == "__main__":
+   main()

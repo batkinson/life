@@ -6,20 +6,20 @@ import life
 
 def main():
 
-   usecurses = True
+   use_curses = True
 
-   if usecurses:
-      stdscr = curses.initscr()
-      scrheight, scrwidth = stdscr.getmaxyx()
-      height, width = scrheight - 2, scrwidth - 2
-      itermax = None
+   if use_curses:
+      std_scr = curses.initscr()
+      scr_height, scr_width = std_scr.getmaxyx()
+      height, width = scr_height - 2, scr_width - 2
+      iter_max = None
 
-      def cursesdraw(cells):
-         stdscr.erase()
-         stdscr.border()
+      def curses_draw(cells):
+         std_scr.erase()
+         std_scr.border()
          for x, y in cells:
-            stdscr.addch(y+1, x+1, ord('0'))
-         stdscr.refresh()
+            std_scr.addch(y+1, x+1, ord('0'))
+         std_scr.refresh()
 
       curses.curs_set(0)
       curses.noecho()
@@ -27,7 +27,7 @@ def main():
 
       try:
          simulation = life.Simulation(width, height)
-         simulation.run(itermax, cursesdraw)
+         simulation.run(iter_max, curses_draw)
       except KeyboardInterrupt:
          pass
       except:
@@ -40,9 +40,9 @@ def main():
          curses.endwin()
    else:
       width, height = 80, 10
-      itermax = 50
+      iter_max = 50
 
-      def printdraw(cells):
+      def print_draw(cells):
          print("-" * width)
          for y in range(height):
             for x in range(width):
@@ -50,9 +50,11 @@ def main():
             print('')
 
       simulation = life.Simulation(width, height)
-      simulation.run(itermax, printdraw)
+      simulation.run(iter_max, print_draw)
 
    print(simulation.summary())
 
+
+# Start the application only if loaded as main
 if __name__ == "__main__":
    main()
