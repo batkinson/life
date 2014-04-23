@@ -21,8 +21,13 @@ def main():
             std_scr.addch(y+1, x+1, ord('0'))
          std_scr.refresh()
 
+      # Hide cursor
       curses.curs_set(0)
+
+      # Don't echo typed characters to screen
       curses.noecho()
+
+      # Turn off line buffering of input
       curses.cbreak()
 
       try:
@@ -35,6 +40,7 @@ def main():
          print(traceback.format_exc())
          sys.exit(1)
       finally:
+         # Return the terminal to a sane state before exiting
          curses.nocbreak()
          curses.echo()
          curses.endwin()
