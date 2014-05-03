@@ -8,6 +8,10 @@ class Universe:
       self.cells = set()
       self._init_cells()
 
+   def resize(self, width, height):
+      self.width, self.height = width, height
+      self.cells = [ c for c in self.cells if c[0] < width and c[1] < height ]
+
    def next_gen(self):
       """Transform cells to next generation based on the rules of Life."""
       self.neighbors = {}
