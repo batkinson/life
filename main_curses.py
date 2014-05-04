@@ -25,6 +25,8 @@ def main():
    # Turn off line buffering of input
    curses.cbreak()
 
+   std_scr.nodelay(1)
+
    try:
       height, width = std_scr.getmaxyx()
       simulation = life.Simulation(width-2, height-2)
@@ -37,6 +39,7 @@ def main():
       sys.exit(1)
    finally:
       # Return the terminal to a sane state before exiting
+      std_scr.nodelay(0)
       curses.nocbreak()
       curses.echo()
       curses.endwin()
