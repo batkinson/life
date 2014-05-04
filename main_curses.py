@@ -10,10 +10,17 @@ def main():
    iter_max = None
 
    def curses_draw(universe):
+ 
+      if std_scr.getch() == curses.KEY_RESIZE:
+         height, width = std_scr.getmaxyx()
+         universe.resize(width-2, height-2)
+
       std_scr.erase()
       std_scr.border()
       for x, y in universe.cells:
-         std_scr.addch(y+1, x+1, ord('0'))
+         height, width = std_scr.getmaxyx()
+         if x < width - 2 and y < height - 2:
+            std_scr.addch(y+1, x+1, ord('0'))
       std_scr.refresh()
 
    # Hide cursor
