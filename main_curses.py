@@ -32,6 +32,7 @@ def main():
    # Turn off line buffering of input
    curses.cbreak()
 
+   # Non-blocking getch, for resizing support
    std_scr.nodelay(1)
 
    try:
