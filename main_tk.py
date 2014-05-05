@@ -7,8 +7,8 @@ class TkLife(Frame):
       Frame.__init__(self, master)
       master.resizable(width=FALSE, height=FALSE)
       master.title('Life')
-      master.geometry('805x605')
-      self.pack()
+      master.geometry('802x602')
+      self.pack(fill=BOTH, expand=YES)
       self.simulation = life.Simulation(80, 60)
       self._create_widgets()
       self.draw()
@@ -34,7 +34,7 @@ class TkLife(Frame):
    def _create_widgets(self):
       """Populates this app with widgets"""
       self.canvas = Canvas(self, width=800, height=600, background='white')
-      self.canvas.pack()
+      self.canvas.pack(fill=BOTH, expand=YES)
 
 
 def main():
