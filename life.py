@@ -18,8 +18,12 @@ class Universe:
 
    def _init_cells(self):
       """Seeds the universe with enough life to sustain a number of iterations."""
-      for i in xrange((self.width * self.height) / 4):
-         self.cells.add((random.randrange(self.width),random.randrange(self.height)))
+      self._add_random_cells(0, self.width, 0, self.height)
+
+   def _add_random_cells(self, startx, endx, starty, endy):
+      widthx, widthy = endx - startx, endy - starty
+      for i in xrange((widthx * widthy) / 4):
+         self.cells.add((random.randrange(startx, endx),random.randrange(starty, endy)))
 
    def _compute_neighbors(self):
       """For cells neighboring live cells, computes number of live neighbors."""
