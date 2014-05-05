@@ -1,26 +1,38 @@
 from __future__ import print_function
 import sys
 import traceback
+import signal
 import curses
 import life
+
 
 def main():
 
    std_scr = curses.initscr()
    iter_max = None
+   global resizing
+   resizing = False
+
+   def resize(*args):
+      global resizing
+      resizing = True
+      curses.endwin()
+      std_scr = curses.initscr()
+      height, width = std_scr.getmaxyx()
+      simulation.universe.resize(width-2, height-2)
+
+   signal.signal(signal.SIGWINCH,resize)
 
    def curses_draw(universe):
  
-      if std_scr.getch() == curses.KEY_RESIZE:
-         height, width = std_scr.getmaxyx()
-         universe.resize(width-2, height-2)
-
       std_scr.erase()
       std_scr.border()
       for x, y in universe.cells:
-         height, width = std_scr.getmaxyx()
-         if x < width - 2 and y < height - 2:
-            std_scr.addch(y+1, x+1, ord('0'))
+         global resizing
+         if resizing:
+            resizing = False
+            break
+         std_scr.addch(y+1, x+1, ord('0'))
       std_scr.refresh()
 
    # Hide cursor
