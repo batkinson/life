@@ -9,8 +9,14 @@ class Universe:
       self._init_cells()
 
    def resize(self, width, height):
+      self.cells = set([ c for c in self.cells if c[0] < width and c[1] < height ])
+      if width > self.width:
+         self._add_random_cells(self.width, width, 0, self.height)
+      if height > self.height:
+         self._add_random_cells(0, self.width, self.height, height)
+      if width > self.width and height > self.height:
+         self._add_random_cells(self.width, width, self.height, height)
       self.width, self.height = width, height
-      self.cells = [ c for c in self.cells if c[0] < width and c[1] < height ]
 
    def next_gen(self):
       """Transform cells to next generation based on the rules of Life."""
