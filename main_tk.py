@@ -5,7 +5,7 @@ class TkLife(Frame):
 
    def __init__(self, master=None):
       Frame.__init__(self, master)
-      master.resizable(width=FALSE, height=FALSE)
+      master.resizable(width=TRUE, height=TRUE)
       master.title('Life')
       master.geometry('802x602')
       self.pack(fill=BOTH, expand=YES)
