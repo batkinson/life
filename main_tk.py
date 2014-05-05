@@ -35,6 +35,10 @@ class TkLife(Frame):
       """Populates this app with widgets"""
       self.canvas = Canvas(self, width=800, height=600, background='white')
       self.canvas.pack(fill=BOTH, expand=YES)
+      self.canvas.bind("<Configure>", self._resize)
+
+   def _resize(self, event):
+      self.simulation.universe.resize(event.width / 10, event.height / 10)
 
 
 def main():
