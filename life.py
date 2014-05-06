@@ -9,7 +9,10 @@ class Universe:
       self._init_cells()
 
    def resize(self, width, height):
+      """Resize the universe, generating cells for new areas."""
+      # Trim cells that no longer fit
       self.cells = set([ c for c in self.cells if c[0] < width and c[1] < height ])
+      # Generate cells for the expanded areas
       if width > self.width:
          self._add_random_cells(self.width, width, 0, self.height)
       if height > self.height:
