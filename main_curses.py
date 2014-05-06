@@ -3,10 +3,11 @@ import sys
 import traceback
 import signal
 import curses
+import atexit
 import life
 
 
-def main():
+def main(*args):
 
    std_scr = curses.initscr()
    iter_max = None
@@ -20,6 +21,11 @@ def main():
       std_scr = curses.initscr()
       height, width = std_scr.getmaxyx()
       simulation.universe.resize(width-2, height-2)
+   
+   def print_summary():
+      print(simulation.summary())
+
+   atexit.register(print_summary)
 
    signal.signal(signal.SIGWINCH,resize)
 
@@ -35,38 +41,17 @@ def main():
          std_scr.addch(y+1, x+1, ord('0'))
       std_scr.refresh()
 
-   # Hide cursor
    curses.curs_set(0)
-
-   # Don't echo typed characters to screen
-   curses.noecho()
-
-   # Turn off line buffering of input
-   curses.cbreak()
-
-   # Non-blocking getch, for resizing support
-   std_scr.nodelay(1)
-
    try:
       height, width = std_scr.getmaxyx()
       simulation = life.Simulation(width-2, height-2)
       simulation.run(iter_max, curses_draw)
    except KeyboardInterrupt:
       pass
-   except:
-      curses.endwin()
-      print(traceback.format_exc())
-      sys.exit(1)
    finally:
-      # Return the terminal to a sane state before exiting
-      std_scr.nodelay(0)
-      curses.nocbreak()
-      curses.echo()
-      curses.endwin()
-
-   print(simulation.summary())
+      curses.curs_set(1)
 
 
 # Start the application only if loaded as main
 if __name__ == "__main__":
-   main()
+   curses.wrapper(main)
